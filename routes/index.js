@@ -11,6 +11,6 @@ const userController = require('../controllers/UserController')
 router.post('/register', validateRegister, registerController.register)
 router.post('/login', validateLogin, loginController.login)
 
-router.get('/admin/users', verifyToken, userController.findUser)
+router.get('/admin/users', verifyToken, userController.findUsers)
 
 module.exports = router

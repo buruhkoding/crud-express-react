@@ -1,9 +1,9 @@
 const express = require('express')
 const prisma = require('../prisma/client')
 
-const findUser =  async (req, res) => {
+const findUsers =  async (req, res) => {
     try {
-        const users = await prisma.findMany({
+        const users = await prisma.user.findMany({
             select: {
                 id: true,
                 name: true,
@@ -22,9 +22,9 @@ const findUser =  async (req, res) => {
     } catch (error) {
         res.status(500).send({
             success: false,
-            messsage: "Internal server error"
+            messsage: error.message
         })
     }
 }
 
-module.exports = { findUser }
+module.exports = { findUsers }
