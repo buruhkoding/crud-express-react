@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] =  useState([!!Cookies.get('token')]);
+    const [isAuthenticated, setIsAuthenticated] =  useState(!!Cookies.get('token'));
 
     useEffect(() => {
         const handleTokenChange = () => {
@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         window.addEventListener('storage', handleTokenChange)
+
         return () => {
             window.removeEventListener('storage', handleTokenChange)
         };
