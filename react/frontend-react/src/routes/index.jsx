@@ -8,7 +8,6 @@ import { Login } from "../views/auth/login.jsx"
 
 export default function AppRoutes() {
     const { isAuthenticated } = useContext(AuthContext)
-    console.log(isAuthenticated)
 
     return (
         <Routes>

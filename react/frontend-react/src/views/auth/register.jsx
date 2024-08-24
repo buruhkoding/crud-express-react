@@ -29,7 +29,7 @@ export const Register = () => {
             email: email,
             password: password
         }).then(() => {
-            navigate('login')
+            navigate('/login')
         }).catch((error => {
             setValidation(error.response.data)
         }))
