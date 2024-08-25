@@ -7,7 +7,7 @@ import { AuthContext } from '../../context/AuthContext'
 
 
 
-export const Login = () => {
+export const Login = ({ setIsLogedIn }) => {
     const navigate = useNavigate()
     const { setIsAuthenticated } = useContext(AuthContext)
 
@@ -30,26 +30,26 @@ export const Login = () => {
     const login = async (e) => {
         e.preventDefault()
 
-        await api.post('/api/login', {
-            email: email,
-            password: password
-        })
-            .then(response => {
-                Cookies.set('token', response.data.data.token)
-                Cookies.set('user', JSON.stringify(response.data.data.user))
+        try {
+            const response = await api.post('/api/login', {
+                email: email,
+                password: password
+            });
 
-                setIsAuthenticated(true)
+            Cookies.set('token', response.data.data.token)
+            Cookies.set('user', JSON.stringify(response.data.data.user))
 
-                navigate('/admin/dashboard', { replace: true })
-            })
-            .catch(error => {
-                setValidation(error.response.data)
-                setLoginFailed(error.response.data)
-            })
+            setIsAuthenticated(true)
+
+            navigate('/admin/dashboard', { replace: true })
+        } catch (error) {
+            setValidation(error.response.data)
+            setLoginFailed(error.response.data)
+        }
     }
 
     return (
-        <div>
+        <div className='mx-auto'>
             <div className=" flex flex-col items-center px-6 py-6">
                 <div className="px-6 py-4 text-center mt-auto">
                     <h2 className="text-4xl font-bold text-gray-800">Sign in</h2>
