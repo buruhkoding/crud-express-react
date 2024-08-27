@@ -101,7 +101,6 @@ const findUserById = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id } = req.params
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
     const existingUser = await prisma.user.findUnique({
         where: {
@@ -126,20 +125,26 @@ const updateUser = async (req, res) => {
         })
     }
 
+    let payload = {
+        name: req.body.name,
+        email: req.body.email,
+    }
+
+    if (req.body.password != null) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        payload.password = hashedPassword
+    }
+
     try {
         const user = await prisma.user.update({
             where: {
                 id: Number(id)
             },
-            data: {
-                name: req.body.name,
-                email: req.body.email,
-                password: hashedPassword
-            }
+            data: payload
         })
 
 
-        const { password, ...dataWithoutPassword} = user
+        const { password, ...dataWithoutPassword } = user
 
         return res.status(200).json({
             status: true,

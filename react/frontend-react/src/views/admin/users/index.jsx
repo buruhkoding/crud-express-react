@@ -54,9 +54,9 @@ export const UsersIndex = () => {
                                     <td className="text-left py-3 px-4">{user.name}</td>
                                     <td className="text-left py-3 px-4">{user.email}</td>
                                     <td className="text-center py-3 px-4">
-                                        <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
+                                        <Link to={`/admin/users/edit/${user.id}`} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
                                             Edit
-                                        </button>
+                                        </Link>
                                         <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                                             Delete
                                         </button>

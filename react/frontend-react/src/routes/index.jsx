@@ -37,7 +37,7 @@ export default function AppRoutes() {
                 isAuthenticated ? <UsersCreate /> : <Navigate to="/login" replace />
             } />
 
-            <Route path="/admin/users/edit" element={
+            <Route path="/admin/users/edit/:id" element={
                 isAuthenticated ? <UsersEdit /> : <Navigate to="/login" replace />
             } />
         </Routes>
