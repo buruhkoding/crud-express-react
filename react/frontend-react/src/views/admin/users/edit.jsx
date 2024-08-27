@@ -50,7 +50,6 @@ export const UsersEdit = () => {
             }
 
             payload = _.omitBy(payload, _.isEmpty)
-            console.log(payload);
 
             await api.put(`/api/admin/users/${id}`, payload)
 

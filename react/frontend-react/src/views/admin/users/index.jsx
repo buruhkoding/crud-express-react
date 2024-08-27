@@ -28,6 +28,23 @@ export const UsersIndex = () => {
         fetchDataUsers()
     }, []);
 
+    const deleteUser = async (id) => {
+        const token = Cookies.get('token')
+
+        if (token) {
+            api.defaults.headers.common['Authorization'] = token;
+
+            try {
+                await api.delete(`/api/admin/users/${id}`)
+                fetchDataUsers()
+            } catch (error) {
+                console.error('There was an error fetching the users!', error)
+            }
+        } else {
+            console.error('Token is not available!');
+        }
+    }
+
     return (
         <div className="w-full">
             <Card>
@@ -40,7 +57,7 @@ export const UsersIndex = () => {
                     </Link>
                 </div>
                 <div className="overflow-x-auto py-2">
-                    <table className="min-w-full bg-white">
+                    <table className="min-w-full bg-white border-collapse border-slate-400">
                         <thead>
                             <tr className="w-full bg-gray-200 text-gray-700">
                                 <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Full Name</th>
@@ -49,20 +66,28 @@ export const UsersIndex = () => {
                             </tr>
                         </thead>
                         <tbody className="text-gray-700">
-                            {users.map((user) => (
-                                <tr key={user.id} className="border-b">
-                                    <td className="text-left py-3 px-4">{user.name}</td>
-                                    <td className="text-left py-3 px-4">{user.email}</td>
-                                    <td className="text-center py-3 px-4">
-                                        <Link to={`/admin/users/edit/${user.id}`} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
-                                            Edit
-                                        </Link>
-                                        <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                            {
+                                users.length > 0
+                                    ? users.map((user) => (
+                                        <tr key={user.id} className="border-b">
+                                            <td className="text-left py-3 px-4">{user.name}</td>
+                                            <td className="text-left py-3 px-4">{user.email}</td>
+                                            <td className="text-center py-3 px-4">
+                                                <Link to={`/admin/users/edit/${user.id}`} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">
+                                                    Edit
+                                                </Link>
+                                                <button onClick={ () => deleteUser(user.id)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    : <tr>
+                                        <td colSpan="4" className="text-center text-sm mt-">
+                                            Data belum tersedia
+                                        </td>
+                                    </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
